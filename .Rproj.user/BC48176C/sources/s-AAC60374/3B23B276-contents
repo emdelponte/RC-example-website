@@ -1,0 +1,238 @@
+---
+bibliography: bibliography.bib
+csl: chicago-author-date.csl
+---
+## Unplanted Model
+
+The paper uses a linear model for the unplanted control. Here we will write a function to use in modelling the unplanted population data. I have wrapped the model in a function which makes it pipe-able, `%>%` and has other advantages when it comes to fitting the same model to several sets of data.
+
+In the linear equation for the Unplanted control treatment, the rate of
+population increase can be expressed as:
+
+$$y = y_0 + rt$$
+
+Where $y_0$ is the initial population, $r$ is the rate of change and $t$
+equal time.
+
+### First order model
+
+```{r linear_model, echo=TRUE}
+linear_model <- function(df) {
+  lm(
+    Log_pop ~ Degree_days,
+    data = df
+  )
+}
+```
+
+Now check the model fit, using `filter()` from **`dplyr`** to select only
+Unplanted data from the data set for the model and fit the linear model to the
+data.
+
+```{r check_model}
+unplanted_model <- nema_long %>%
+  filter(Variety == "Unplanted") %>%
+  linear_model()
+```
+
+Using `par(mfrow = c(2, 2))` creates a four-panel graph rather than four individual graphs, which the next function will create by default.
+
+Using the `plot()` function with any `lm()` object will create four diagnostic plots for your inspection.
+
+```{r plot_model}
+par(mfrow = c(2, 2))
+plot(unplanted_model)
+```
+
+These plots do not appear to indicate anything amiss as one would hope for from the models that have already been published. If you are unfamiliar with how to interpret these diagnostic plots see [Interpreting Linear Models in R] in the [Further Reading] section.
+
+Using the `summary()` function displays information about the model fit. If you are unfamiliar with how to read and interpret the output of `summary()` for a linear model, please refer to [Interpreting Linear Models in R] in the
+[Further Reading] section for references that go into more detail on this matter.
+
+```{r summary}
+summary(unplanted_model)
+```
+
+From the original paper, the $R^2$ value of the unplanted linear model was 0.7, we can see here that agrees:
+`r {round(summary(unplanted_model)$r.squared, 2)}`. In the original paper, $P$ < 0.001, R reports $p-value:$ 
+`r {summary(unplanted_model)$coefficients[2, 4]}`, which also agrees.
+
+#### Visualising the Model Fit to the Data
+
+Using **`ggplot2`**'s `geom_smooth()` we can fit the same model above and graph the resulting line.
+
+```{r visualise_linear}
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "Unplanted") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    size = 1,
+    se = FALSE,
+    colour = "grey",
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      "ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1"
+    ),
+    sep = ""
+  )) +
+  xlab("Thermal Time ˚C Days Above 10 ˚C)") +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Unplanted Linear Model")
+```
+
+### Second order model
+
+In the original paper, the quadratic model best described Gatcher and GS50a data, which are fit here.
+
+```{r quadratic_models, echo=TRUE}
+quadratic_model <- function(df) {
+  lm(
+    Log_pop ~ Degree_days + I(Degree_days ^ 2),
+    data = df
+  )
+}
+```
+
+## S varieties
+
+Gatcher, Potam and Suneca all have very similar curves, here Gatcher is used to fit a second-order model as in the original paper following the same methods as above for the linear model.
+
+```{r susceptible_model, echo=TRUE}
+s_model <- nema_long %>%
+  filter(Variety == "Gatcher") %>%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(s_model)
+
+summary(s_model)
+```
+
+From the original paper, the $R^2$ value of Gatcher's quadratic model was 0.80,
+we can see here that agrees: `r {round(summary(s_model)$r.squared, 2)}`. In the
+original paper, $P$ < 0.001, R reports $p-value:$
+`r {summary(s_model)$coefficients[2, 4]}`, which also agrees.
+
+#### Model fit 
+
+The model visualisation is the same for the quadratic models as the linear
+model, however you will note that the line has a downward curve at higher
+temperatures.
+
+```{r visualise_s_model}
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "Gatcher") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = "grey",
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      "ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1"
+    ),
+    sep = ""
+  )) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Gatcher Quadratic Model")
+```
+
+## MR Varieties
+
+GS50a, moderately resistant to _P. thornei_, also fits a quadratic model but the coefficients are slightly different due to different responses to the variety and temperature.
+
+```{r moderately_resistant_model, echo=TRUE}
+mr_model <- nema_long %>%
+  filter(Variety == "GS50a") %>%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(mr_model)
+
+summary(mr_model)
+```
+
+From the original paper, the $R^2$ value of GS50a's quadratic model was 0.82, we can see here that agrees: `r {round(summary(mr_model)$r.squared, 2)}`. In the original paper, $P$ < 0.001, R reports $p-value:$
+`r {summary(mr_model)$coefficients[2, 4]}`, which also agrees.
+
+#### Model Fit
+
+```{r visualise_mr_model}
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "GS50a") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = "grey",
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      "ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1"
+    ),
+    sep = ""
+  )) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  scale_colour_viridis("Temperature") +
+  ggtitle("GS50a Quadratic Model")
+```
+
+## Conclusions
+
+As in the original paper, the model equations can be derived from these models as well. The derived regression equations are:
+
+Gatcher (Susceptible):
+$$ln(P. thornei + 1) = -0.000003(0.0000009)T^2 + 0.009(0.0019)T + 5.4671(0.904)$$
+
+GS50a (Moderately Resistant):
+$$ln(P. thornei + 1) = -0.000002(0.0000007)T^2 + 0.0063(0.0014)T + 5.1559(0.678)$$
+
+Unplanted Control: 
+$$ln(P. thornei + 1) = 0.0013(0.00018)T + 5.4151(0.193)$$
+
+Refer back to the `summary()` outputs for each of the models for the coefficient values and $R^2$ values, which match those reported in the original paper where the models were fit with Genstat.
+
+Gatcher and GS50a have similar phenologies, but differ in resistance to root lesion nematodes, making the model comparisons a reasonable objective. The original paper goes on to test the effect of sowing date based on degree days. [@THOMPSON2015] reported a 61% increase in yield on average from sowing the susceptible, intolerant cultivar Gatcher at the end of May than sowing it in the third week of June. By June the soil temperatures and nematode populations were both greater, leading to lower wheat yield. The effects were less pronounced in the moderately resistant cultivar, GS50a, but were similar with a reduction in nematode population densities occurring due to earlier
+planting.
+
+The models illustrated here for Gatcher and GS50a were able to accurately reflect the changes in nematode population as a result of degree days, which affected the nematodes' ability to damage the crop and reduce yield
+[@THOMPSON2015].
+
+
+# References

@@ -1,0 +1,41 @@
+name: teste
+output_dir: docs
+output:
+  html_document:
+    css: style.css
+    theme: flatly
+    df_print: paged
+    highlight: default
+    include:
+      after_body: footer.md
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+    lib_dir: site_libs
+    self_contained: no
+bibliography: references.bib
+csl: /templates/chicago-author-date.csl
+navbar:
+  title: Fungicide effects on soybean yield
+  left:
+  - text: About
+    icon: fa fa-home
+    href: index.html
+  - text: Data
+    icon: fa fa-table
+    href: data.html
+  - text: Documented analysis
+    icon: fa fa-file-code-o
+    menu:
+    - text: Exploration 
+      href: code1.html
+    - text: Modeling 
+      href: code2.html
+  - text: Manuscript
+    icon: fa fa-table
+    href: manuscript.html
+  right:
+  - text: source
+    icon: fa-github-square
+    href: https://github.com/emdelponte/paper-fungicides-whitemold

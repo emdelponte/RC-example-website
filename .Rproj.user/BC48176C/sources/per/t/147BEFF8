@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564799862067.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2090984810",
+    "id" : "147BEFF8",
+    "lastKnownWriteTime" : 1564799949,
+    "last_content_update" : 1564799949,
+    "path" : "~/Google Drive/03-Teaching/Short-courses/APS-Workshop-2019/compendium-files/RC-example-website/index.Rmd",
+    "project_path" : "index.Rmd",
+    "properties" : {
+        "cursorPosition" : "6,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

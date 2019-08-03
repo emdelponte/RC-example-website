@@ -1,0 +1,32 @@
+
+
+
+Libraries to install
+
+You can either install from CRAN
+install.packages('gsheet')
+
+Or install from a GitHub repository
+devtools::install_github("maxconway/gsheet")
+
+The list of packages to have installed:
+
+remotes
+devtools
+rmarkdown
+knitr
+tidyverse
+readxl
+gsheet
+
+distill
+rmdformats
+stylr
+citr
+rrtools
+workflowr
+holepunch: remotes::install_github("karthik/holepunch")
+
+
+
+

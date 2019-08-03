@@ -1,0 +1,235 @@
+---
+bibliography: bibliography.bib
+csl: chicago-author-date.csl
+---
+
+# Bonus Material
+
+## Log Transformation
+
+In the paper the the natural log, `ln() +1`, of the nematode population counts were used to fit the models. Here we will explore a bit further why this was
+necessary.
+
+{{% alert note %}}
+A note about using `log() + 1` rather than just `log()`. This is necessary with these data to avoid taking `log(0)`. Try it in R to see what happens if you are
+not familiar.
+{{% /alert %}}
+
+First, plot the data for each of the four temperatures and the four varieties, plus the unplanted control converting from the natural log value back to the original actual count values to see what the population numbers look like. Note the use of `exp() - 1` in the `y` aesthetic, to transform the values from the `ln() + 1` values. Doing this shows us the original data's values and helps demonstrate why the data were log transformed for analysis. To examine the data, first we will use boxplots and then quantile-quantile (qq) plots.
+
+```{r boxplots_original}
+ggplot(
+  nema_long,
+  aes(
+    x = Temperature,
+    y = exp(Log_pop) - 1,
+    group = Temperature,
+    colour = Temperature
+  )
+) +
+  geom_boxplot(
+    colour = "grey",
+    outlier.color = NA
+  ) +
+  geom_jitter(
+    width = 0.1,
+    alpha = 0.6
+  ) +
+  ylab(expression(
+    paste(
+      "exp(ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1)"
+    ),
+    sep = ""
+  )) +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  ) +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Untransformed Data")
+```
+
+```{r qq_original}
+ggplot(
+  nema_long,
+  aes(sample = exp(Log_pop) - 1)
+) +
+  stat_qq() +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  )
+```
+
+The boxplots show that there is a wide range of values with the 25 ˚C temperature populations close to zero with others having quite large ranges, this could indicate heteroscedasticity.
+
+Also, looking at the qq-plots it is apparent that the original data do not meet the assumptions of normally distributed errors for a linear model. See the
+[Further Reading] section for suggested reading on interpreting qq-plots.
+
+```{r boxplots_ln}
+ggplot(
+  nema_long,
+  aes(
+    x = Temperature,
+    y = Log_pop,
+    group = Temperature,
+    colour = Temperature
+  )
+) +
+  geom_boxplot(
+    colour = "grey",
+    outlier.color = NA
+  ) +
+  geom_jitter(
+    width = 0.1,
+    alpha = 0.6
+  ) +
+  ylab(expression(
+    paste(
+      "exp(ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1)"
+    ),
+    sep = ""
+  )) +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  ) +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Log Transformed Data")
+```
+
+```{r qq_ln}
+ggplot(
+  nema_long,
+  aes(sample = Log_pop)
+) +
+  stat_qq() +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  )
+```
+
+Here we see that the `log()` transformed data's boxplots show fewer outliers and tighter range of values. The qq-plots also indicate that it is possible to
+conduct a linear regression with these data.
+
+## AIC comparison
+
+Even though the original paper used a linear model for the unplanted data, a polynomial model also fits these data quite well. We can compare the original linear model from the paper with a polynomial model quite easily in R to see how the models compare using AIC (Akaike information criterion). AIC is used to measure the models' relative quality to each other.
+
+Since the `unplanted_model` object already exists as a product of the linear model, we simply need to use the polynomial model with the unplanted data to create a new object to compare them.
+
+```{r unplanted_poly}
+unplanted_poly_model <- nema_long %>%
+  filter(Variety == "Unplanted") %>%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(unplanted_poly_model)
+
+summary(unplanted_poly_model)
+```
+
+By this information, the $R^2$ value is a bit better from the `unplanted_poly_model`, `r {summary(unplanted_poly_model)$r.squared}`, than 
+the original `unplanted_model`'s, `r {summary(unplanted_model)$r.squared}`.
+Using the same code from above it is easy to visualise the new model's fit using
+**`ggplot2`**.
+
+```{r visualise_unplanted_poly_model}
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "Unplanted") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = "grey",
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      "ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1"
+    ),
+    sep = ""
+  )) +
+  xlab("Thermal Time (˚C Days Above 10 ˚C)") +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Unplanted Quadratic Model")
+```
+
+Checking the model fit visually, we can see that it fits the data nicely. To get a better feel for how these models compare, AIC can be used to determine the relative quality of a model for a _given set of data_. That is, you cannot
+compare models for other data using AIC.
+
+Checking the AIC is quite simple in R, just `AIC()`. Here we check the AIC of the original linear `unplanted_model` and the new `unplanted_poly_model`.
+
+```{r AIC}
+AIC(unplanted_model)
+AIC(unplanted_poly_model)
+```
+
+Ideally when fitting models, you look for the least complex model that provides the best explanation of the variation in the data. In this case the original linear model has a lower AIC, `r {AIC(unplanted_model)}`, than that of the polynomial model, `r {AIC(unplanted_poly_model)}`, but they are extremely close and the $R^2$ value of the polynomial model, `r {summary(unplanted_poly_model)$r.squared}`, is a bit better than the linear model's $R^2$, `r {summary(unplanted_model)$r.squared}`, as well.
+Therefore, without more data to distinguish the models it appears that either model suffices for the data provided.
+
+# Further Reading
+
+## Tidy Data
+
+Wickham [-@TIDY-DATA2014] introduced the idea of tidy data for analysis. As you work with raw data from many sources, it is useful to understand what this means and why it is useful. In this example, **`tidyr`** was used to convert the data from wide to long format. For a more in-depth look at using **`tidyr`** see:
+
+- [Introducing tidyr](https://blog.rstudio.com/2014/07/22/introducing-tidyr/)
+
+- [Gather columns into key-value pairs](http://tidyr.tidyverse.org/reference/gather.html).
+
+## Model interpretation
+
+The University of Georgia has a nice, easy to understand set of materials that demonstrate how to interpret diagnostic plot outputs from `plot(lm.object)`,
+[Regression diagnostic plots](http://strata.uga.edu/8370/rtips/regressionPlots.html)
+on their Data Analysis in the Geosciences page. For even more, this
+Cross Validated question has an excellent discussion on
+[Interpreting plot.lm()](https://stats.stackexchange.com/questions/58141/interpreting-plot-lm).
+
+The University of Montana provides an on-line text, "_Statistics With R_", that includes a section on [ANOVA model diagnostics including QQ-plots](https://arc.lib.montana.edu/book/statistics-with-r-textbook/item/57). Since ANOVA uses `lm()` in R, the tools and descriptions here are applicable to the qq-plots we have generated here in this illustration.
+
+For a detailed look at how to interpret the output from `summary()` for linear models, see The YHAT Blog post,
+[Fitting & Interpreting Linear Models in R](http://blog.yhat.com/posts/r-lm-summary.html).
+
+Faraway [-@FARAWAY2002],
+"[_Practical Regression and Anova using R_](https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf)"
+is an excellent free resource that goes into detail about fitting linear models
+using R and how to interpret the diagnostics. Prof. Faraway has more recent
+books on the subject as well that you might wish to borrow from your library or
+purchase, see
+[http://www.maths.bath.ac.uk/~jjf23/LMR/](http://www.maths.bath.ac.uk/~jjf23/LMR/)
+for more details.
+
+## Selecting the Right Colour Scheme
+
+Selecting good colour schemes is essential for communicating your message.
+The **`viridis`** package makes this much easier to do. Bob Rudis has a nice
+blog post when the package was first introduced that demonstrates why it is
+useful to use a package like this for your colour palettes,
+[Using the new ‘viridis’ colormap in R (thanks to Simon Garnier)](https://rud.is/b/2015/07/20/using-the-new-viridis-colormap-in-r-thanks-to-simon-garnier/). Other colour palettes for R exist as well. Notably the
+**`RColorBrewer`** package provides an easy-to-use interface for the fantastic
+Colour Brewer palettes [http://colorbrewer2.org/](http://colorbrewer2.org/)
+commonly used for cartography but also useful for graphs.
+
+# Reproducibility
+
+```{r reproducibility, echo=FALSE}
+devtools::session_info()
+```
+
+# References

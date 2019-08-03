@@ -1,0 +1,169 @@
+---
+bibliography: bibliography.bib
+csl: chicago-author-date.csl
+---
+
+# Objectives
+
+There are two types of models described in the paper, the first model is a linear model used to describe the unplanted control and two quadratic models fit Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat cultivars. For a more detailed discussion on fitting plant disease models in R, please see the "[Linear Regression](http://www.apsnet.org/edcenter/advanced/topics/EcologyAndEpidemiologyInR/DiseaseProgress/Pages/LinearRegression.aspx)" module in the "Ecology and Epidemiology in R" documents available in the American Phytopathological Society's (APS) Education Center. For an even more in-depth discussion on linear models in R, how to fit and how to interpret the diagnostics that R provides the reader should refer to Faraway [-@FARAWAY2002].
+
+This post will illustrate how to fit the original linear and quadratic models using the original data in R [@R2017].
+
+# Packages
+
+Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries used in this work. It is a collection of packages designed to work together for data science, <https://www.tidyverse.org/>. The **`tidyverse`** includes, **`readr`** [-@READR2017], used to import the data; **`tidyr`** [-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to subset the data; and **`ggplot2`** [-@GGPLOT22009], used for visualising the data and model fits. **`viridis`** [-@VIRIDIS2018] is a selection of colour pallets that are widely accessible for people with colour-blindness and printing
+in black and white.
+
+The following code chunk checks first to see if you have **`tidyverse`**, **`viridis`** and **`hrbrthemes`** installed, if not, it will automatically install them and then load them. Then set the default theme for all graphs to `theme_ipsum_rc`.
+
+```{r libraries, message=FALSE}
+if (!require(tidyverse)) {
+  install.packages(
+    "tidyverse",
+    repos = c(CRAN = "https://cloud.r-project.org/")
+  )
+  library(tidyverse)
+}
+
+if (!require(viridis)) {
+  install.packages(
+    "viridis",
+    repos = c(CRAN = "https://cloud.r-project.org/")
+  )
+  library(viridis)
+}
+
+if (!require(hrbrthemes)) {
+  install.packages(
+    "hrbrthemes",
+    repos = c(CRAN = "https://cloud.r-project.org/")
+  )
+  library(hrbrthemes)
+}
+
+ggplot2::theme_set(hrbrthemes::theme_ipsum_rc())
+```
+
+# Data Wrangling
+
+The data are located in the `data` sub-folder. Import the data using
+`read_csv()` function from **`readr`**  and view them.
+
+```{r data_import, echo=TRUE, message=FALSE}
+nema <- read_csv("data/Nematode_Data.csv")
+
+nema
+
+nrow(nema)
+```
+
+### Data Description
+
+There are nine columns in the `nema` data described here in the following table.
+
+```{r table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+if (!require(kableExtra)) {
+  install.packages(
+    "kableExtra",
+    repos = c(CRAN = "https://cloud.r-project.org/")
+  )
+  library(kableExtra)
+}
+
+fields <- data.frame(
+  c(
+    "Weeks",
+    "Days",
+    "Temperature",
+    "Degree_Days",
+    "Unplanted",
+    "Gatcher",
+    "GS50a",
+    "Potam",
+    "Suneca"
+  ),
+  c(
+    "Number of weeks after wheat sowing",
+    "Number of days after wheat sowing",
+    "Temperature(˚C) treatment",
+    "Average thermal time degree days above 10 ˚C for four soil depths
+    (8, 15, 30 and 60 cm)",
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in the control treatment with no wheat planted"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a susceptible wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a moderately resistant wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a susceptible wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a susceptible wheat cultivar")
+  )
+)
+
+names(fields) <- c("Field", "Data Description")
+
+fields %>%
+  knitr::kable("html", escape = F) %>%
+  kable_styling(bootstrap_options = c(
+    "striped",
+    "hover",
+    "condensed",
+    "responsive"
+  )) %>%
+  footnote(
+    symbol = "For an exploration into the reasons why the data were transformed using the natural log `log()`, see the [Exploring Why the Data Were Log Transformed] in the [Bonus Material] section"
+  )
+```
+
+### Wide to Long Data
+
+You can see that each of the varieties have their own column in the original data format, this is commonly called wide data. Wide data are commonly found in spreadsheets but do not lend themselves easily to data analysis, modelling and visualisation. To make it easier to do these things it is common to convert the data from wide to long format, commonly referred to as tidying, when using R. The advantage of a tidy dataset is that it is easy to manipulate, model and visualize, and always has a specific structure where each variable is a column, each observation is a row, and each type of observational unit is a table
+[@TIDY-DATA2014].
+
+In order to use **`ggplot2`** for visualising the data, they need to be converted from wide to long. Using `gather()` from the **`tidyr`** package to convert from wide to long format where the varieties are all listed in a single column, `Variety`.
+
+```{r gather_data, echo=TRUE}
+nema_long <- nema %>% gather(Variety, Log_pop, Unplanted:Suneca)
+
+nema_long
+
+nrow(nema_long)
+```
+
+As we see, the original `nema` data had only `r {nrow(nema)}` rows and the long
+format of the data have `r {nrow(nema_long)}` rows now.
+
+# Data Visualisation
+
+Now that the data are in the format that **`ggplot2`** uses, take a look at
+the data first to see what it looks like. Here we fit a smoothed line for each
+variety's nematode population to the raw data. The individual temperature
+treatments are shown here by shape, the variety by colour.
+
+```{r raw_data_scatterplots, echo=TRUE, message=FALSE}
+ggplot(
+  nema_long,
+  aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+    group = Variety
+  )
+) +
+  geom_point() +
+  geom_smooth(
+    colour = "grey",
+    se = FALSE,
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      "ln(",
+      italic("P. thornei"),
+      "/kg soil) + 1"
+    ),
+    sep = ""
+  )) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  scale_colour_viridis("Temperature") +
+  facet_wrap(~ Variety, ncol = 2)
+```
+
+
+# References

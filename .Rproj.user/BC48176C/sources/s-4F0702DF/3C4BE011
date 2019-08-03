@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564801076167.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "3C4BE011",
+    "lastKnownWriteTime" : 1564800822,
+    "last_content_update" : 1564800822,
+    "path" : "~/Google Drive/03-Teaching/Short-courses/APS-Workshop-2019/compendium-files/RC-example-webpage/code_ex3.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "3,45",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>code3.utf8.md</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible report</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa fa fa-home"></span>
+     
+    About
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa fa fa-file-code-o"></span>
+     
+    Documented analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="code1.html">Data exploration</a>
+    </li>
+    <li>
+      <a href="code2.html">Modeling</a>
+    </li>
+    <li>
+      <a href="code3.html">Bonus material</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/emdelponte/paper-fungicides-whitemold">
+    <span class="fa fa-github-square"></span>
+     
+    source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="bonus-material" class="section level1">
+<h1>Bonus Material</h1>
+<div id="log-transformation" class="section level2">
+<h2>Log Transformation</h2>
+<p>In the paper the the natural log, <code>ln() +1</code>, of the nematode population counts were used to fit the models. Here we will explore a bit further why this was necessary.</p>
+<p>{{% alert note %}} A note about using <code>log() + 1</code> rather than just <code>log()</code>. This is necessary with these data to avoid taking <code>log(0)</code>. Try it in R to see what happens if you are not familiar. {{% /alert %}}</p>
+<p>First, plot the data for each of the four temperatures and the four varieties, plus the unplanted control converting from the natural log value back to the original actual count values to see what the population numbers look like. Note the use of <code>exp() - 1</code> in the <code>y</code> aesthetic, to transform the values from the <code>ln() + 1</code> values. Doing this shows us the original data’s values and helps demonstrate why the data were log transformed for analysis. To examine the data, first we will use boxplots and then quantile-quantile (qq) plots.</p>
+<pre class="r"><code>ggplot(
+  nema_long,
+  aes(
+    x = Temperature,
+    y = exp(Log_pop) - 1,
+    group = Temperature,
+    colour = Temperature
+  )
+) +
+  geom_boxplot(
+    colour = &quot;grey&quot;,
+    outlier.color = NA
+  ) +
+  geom_jitter(
+    width = 0.1,
+    alpha = 0.6
+  ) +
+  ylab(expression(
+    paste(
+      &quot;exp(ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1)&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  ) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;Untransformed Data&quot;)</code></pre>
+<p><img src="code3_files/figure-html/boxplots_original-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(
+  nema_long,
+  aes(sample = exp(Log_pop) - 1)
+) +
+  stat_qq() +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  )</code></pre>
+<p><img src="code3_files/figure-html/qq_original-1.png" width="672" /></p>
+<p>The boxplots show that there is a wide range of values with the 25 ˚C temperature populations close to zero with others having quite large ranges, this could indicate heteroscedasticity.</p>
+<p>Also, looking at the qq-plots it is apparent that the original data do not meet the assumptions of normally distributed errors for a linear model. See the <a href="#further-reading">Further Reading</a> section for suggested reading on interpreting qq-plots.</p>
+<pre class="r"><code>ggplot(
+  nema_long,
+  aes(
+    x = Temperature,
+    y = Log_pop,
+    group = Temperature,
+    colour = Temperature
+  )
+) +
+  geom_boxplot(
+    colour = &quot;grey&quot;,
+    outlier.color = NA
+  ) +
+  geom_jitter(
+    width = 0.1,
+    alpha = 0.6
+  ) +
+  ylab(expression(
+    paste(
+      &quot;exp(ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1)&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  ) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;Log Transformed Data&quot;)</code></pre>
+<p><img src="code3_files/figure-html/boxplots_ln-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(
+  nema_long,
+  aes(sample = Log_pop)
+) +
+  stat_qq() +
+  facet_wrap(
+    ~ Variety,
+    ncol = 2
+  )</code></pre>
+<p><img src="code3_files/figure-html/qq_ln-1.png" width="672" /></p>
+<p>Here we see that the <code>log()</code> transformed data’s boxplots show fewer outliers and tighter range of values. The qq-plots also indicate that it is possible to conduct a linear regression with these data.</p>
+</div>
+<div id="aic-comparison" class="section level2">
+<h2>AIC comparison</h2>
+<p>Even though the original paper used a linear model for the unplanted data, a polynomial model also fits these data quite well. We can compare the original linear model from the paper with a polynomial model quite easily in R to see how the models compare using AIC (Akaike information criterion). AIC is used to measure the models’ relative quality to each other.</p>
+<p>Since the <code>unplanted_model</code> object already exists as a product of the linear model, we simply need to use the polynomial model with the unplanted data to create a new object to compare them.</p>
+<pre class="r"><code>unplanted_poly_model &lt;- nema_long %&gt;%
+  filter(Variety == &quot;Unplanted&quot;) %&gt;%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(unplanted_poly_model)</code></pre>
+<p><img src="code3_files/figure-html/unplanted_poly-1.png" width="672" /></p>
+<pre class="r"><code>summary(unplanted_poly_model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Log_pop ~ Degree_days + I(Degree_days^2), data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.48697 -0.23865 -0.08038  0.19211  0.97466 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       5.062e+00  4.031e-01  12.556 3.14e-11 ***
+## Degree_days       2.125e-03  8.511e-04   2.497   0.0209 *  
+## I(Degree_days^2) -4.010e-07  4.016e-07  -0.999   0.3293    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3848 on 21 degrees of freedom
+## Multiple R-squared:  0.7101, Adjusted R-squared:  0.6825 
+## F-statistic: 25.72 on 2 and 21 DF,  p-value: 2.255e-06</code></pre>
+<p>By this information, the <span class="math inline">\(R^2\)</span> value is a bit better from the <code>unplanted_poly_model</code>, 0.7101253, than the original <code>unplanted_model</code>’s, 0.6963592. Using the same code from above it is easy to visualise the new model’s fit using <strong><code>ggplot2</code></strong>.</p>
+<pre class="r"><code>nema_long %&gt;%
+  group_by(Variety) %&gt;%
+  filter(Variety == &quot;Unplanted&quot;) %&gt;%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = &quot;lm&quot;,
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = &quot;grey&quot;,
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      &quot;ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  xlab(&quot;Thermal Time (˚C Days Above 10 ˚C)&quot;) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;Unplanted Quadratic Model&quot;)</code></pre>
+<p><img src="code3_files/figure-html/visualise_unplanted_poly_model-1.png" width="672" /></p>
+<p>Checking the model fit visually, we can see that it fits the data nicely. To get a better feel for how these models compare, AIC can be used to determine the relative quality of a model for a <em>given set of data</em>. That is, you cannot compare models for other data using AIC.</p>
+<p>Checking the AIC is quite simple in R, just <code>AIC()</code>. Here we check the AIC of the original linear <code>unplanted_model</code> and the new <code>unplanted_poly_model</code>.</p>
+<pre class="r"><code>AIC(unplanted_model)</code></pre>
+<pre><code>## [1] 26.17149</code></pre>
+<pre class="r"><code>AIC(unplanted_poly_model)</code></pre>
+<pre><code>## [1] 27.05797</code></pre>
+<p>Ideally when fitting models, you look for the least complex model that provides the best explanation of the variation in the data. In this case the original linear model has a lower AIC, 26.1714857, than that of the polynomial model, 27.0579669, but they are extremely close and the <span class="math inline">\(R^2\)</span> value of the polynomial model, 0.7101253, is a bit better than the linear model’s <span class="math inline">\(R^2\)</span>, 0.6963592, as well. Therefore, without more data to distinguish the models it appears that either model suffices for the data provided.</p>
+</div>
+</div>
+<div id="further-reading" class="section level1">
+<h1>Further Reading</h1>
+<div id="tidy-data" class="section level2">
+<h2>Tidy Data</h2>
+<p>Wickham <span class="citation">(2014)</span> introduced the idea of tidy data for analysis. As you work with raw data from many sources, it is useful to understand what this means and why it is useful. In this example, <strong><code>tidyr</code></strong> was used to convert the data from wide to long format. For a more in-depth look at using <strong><code>tidyr</code></strong> see:</p>
+<ul>
+<li><p><a href="https://blog.rstudio.com/2014/07/22/introducing-tidyr/">Introducing tidyr</a></p></li>
+<li><p><a href="http://tidyr.tidyverse.org/reference/gather.html">Gather columns into key-value pairs</a>.</p></li>
+</ul>
+</div>
+<div id="model-interpretation" class="section level2">
+<h2>Model interpretation</h2>
+<p>The University of Georgia has a nice, easy to understand set of materials that demonstrate how to interpret diagnostic plot outputs from <code>plot(lm.object)</code>, <a href="http://strata.uga.edu/8370/rtips/regressionPlots.html">Regression diagnostic plots</a> on their Data Analysis in the Geosciences page. For even more, this Cross Validated question has an excellent discussion on <a href="https://stats.stackexchange.com/questions/58141/interpreting-plot-lm">Interpreting plot.lm()</a>.</p>
+<p>The University of Montana provides an on-line text, “<em>Statistics With R</em>”, that includes a section on <a href="https://arc.lib.montana.edu/book/statistics-with-r-textbook/item/57">ANOVA model diagnostics including QQ-plots</a>. Since ANOVA uses <code>lm()</code> in R, the tools and descriptions here are applicable to the qq-plots we have generated here in this illustration.</p>
+<p>For a detailed look at how to interpret the output from <code>summary()</code> for linear models, see The YHAT Blog post, <a href="http://blog.yhat.com/posts/r-lm-summary.html">Fitting &amp; Interpreting Linear Models in R</a>.</p>
+<p>Faraway <span class="citation">(2002)</span>, “<a href="https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf"><em>Practical Regression and Anova using R</em></a>” is an excellent free resource that goes into detail about fitting linear models using R and how to interpret the diagnostics. Prof. Faraway has more recent books on the subject as well that you might wish to borrow from your library or purchase, see <a href="http://www.maths.bath.ac.uk/~jjf23/LMR/">http://www.maths.bath.ac.uk/~jjf23/LMR/</a> for more details.</p>
+</div>
+<div id="selecting-the-right-colour-scheme" class="section level2">
+<h2>Selecting the Right Colour Scheme</h2>
+<p>Selecting good colour schemes is essential for communicating your message. The <strong><code>viridis</code></strong> package makes this much easier to do. Bob Rudis has a nice blog post when the package was first introduced that demonstrates why it is useful to use a package like this for your colour palettes, <a href="https://rud.is/b/2015/07/20/using-the-new-viridis-colormap-in-r-thanks-to-simon-garnier/">Using the new ‘viridis’ colormap in R (thanks to Simon Garnier)</a>. Other colour palettes for R exist as well. Notably the <strong><code>RColorBrewer</code></strong> package provides an easy-to-use interface for the fantastic Colour Brewer palettes <a href="http://colorbrewer2.org/">http://colorbrewer2.org/</a> commonly used for cartography but also useful for graphs.</p>
+</div>
+</div>
+<div id="reproducibility" class="section level1">
+<h1>Reproducibility</h1>
+<pre><code>## ─ Session info ──────────────────────────────────────────────────────────
+##  setting  value                       
+##  version  R version 3.5.3 (2019-03-11)
+##  os       macOS Mojave 10.14.5        
+##  system   x86_64, darwin15.6.0        
+##  ui       X11                         
+##  language (EN)                        
+##  collate  en_US.UTF-8                 
+##  ctype    en_US.UTF-8                 
+##  tz       America/Sao_Paulo           
+##  date     2019-08-03                  
+## 
+## ─ Packages ──────────────────────────────────────────────────────────────
+##  package     * version date       lib source                          
+##  assertthat    0.2.1   2019-03-21 [1] CRAN (R 3.5.2)                  
+##  backports     1.1.3   2018-12-14 [1] CRAN (R 3.5.0)                  
+##  broom         0.5.2   2019-04-07 [1] CRAN (R 3.5.2)                  
+##  callr         3.1.1   2018-12-21 [1] CRAN (R 3.5.0)                  
+##  cellranger    1.1.0   2016-07-27 [1] CRAN (R 3.5.0)                  
+##  cli           1.1.0   2019-03-19 [1] CRAN (R 3.5.2)                  
+##  colorspace    1.4-1   2019-03-18 [1] CRAN (R 3.5.2)                  
+##  crayon        1.3.4   2017-09-16 [1] CRAN (R 3.5.0)                  
+##  desc          1.2.0   2018-05-01 [1] CRAN (R 3.5.0)                  
+##  devtools      2.0.1   2018-10-26 [1] CRAN (R 3.5.1)                  
+##  digest        0.6.18  2018-10-10 [1] CRAN (R 3.5.0)                  
+##  dplyr       * 0.8.0.1 2019-02-15 [1] CRAN (R 3.5.2)                  
+##  evaluate      0.13    2019-02-12 [1] CRAN (R 3.5.2)                  
+##  extrafont     0.17    2014-12-08 [1] CRAN (R 3.5.0)                  
+##  extrafontdb   1.0     2012-06-11 [1] CRAN (R 3.5.0)                  
+##  forcats     * 0.3.0   2018-02-19 [1] CRAN (R 3.5.0)                  
+##  fs            1.2.6   2018-08-23 [1] CRAN (R 3.5.0)                  
+##  generics      0.0.2   2018-11-29 [1] CRAN (R 3.5.0)                  
+##  ggplot2     * 3.1.1   2019-04-07 [1] CRAN (R 3.5.2)                  
+##  glue          1.3.1   2019-03-12 [1] CRAN (R 3.5.2)                  
+##  gridExtra     2.3     2017-09-09 [1] CRAN (R 3.5.0)                  
+##  gtable        0.3.0   2019-03-25 [1] CRAN (R 3.5.2)                  
+##  haven         2.0.0   2018-11-22 [1] CRAN (R 3.5.0)                  
+##  hms           0.4.2   2018-03-10 [1] CRAN (R 3.5.0)                  
+##  hrbrthemes  * 0.5.0.1 2018-08-19 [1] CRAN (R 3.5.0)                  
+##  htmltools     0.3.6   2017-04-28 [1] CRAN (R 3.5.0)                  
+##  httr          1.4.0   2018-12-11 [1] CRAN (R 3.5.0)                  
+##  jsonlite      1.6     2018-12-07 [1] CRAN (R 3.5.0)                  
+##  kableExtra  * 0.9.0   2018-05-21 [1] CRAN (R 3.5.0)                  
+##  knitr         1.22    2019-03-08 [1] CRAN (R 3.5.2)                  
+##  labeling      0.3     2014-08-23 [1] CRAN (R 3.5.0)                  
+##  lattice       0.20-38 2018-11-04 [1] CRAN (R 3.5.3)                  
+##  lazyeval      0.2.2   2019-05-05 [1] Github (hadley/lazyeval@c336765)
+##  lubridate     1.7.4   2018-04-11 [1] CRAN (R 3.5.0)                  
+##  magrittr      1.5     2014-11-22 [1] CRAN (R 3.5.0)                  
+##  memoise       1.1.0   2017-04-21 [1] CRAN (R 3.5.0)                  
+##  modelr        0.1.2   2018-05-11 [1] CRAN (R 3.5.0)                  
+##  munsell       0.5.0   2018-06-12 [1] CRAN (R 3.5.0)                  
+##  nlme          3.1-137 2018-04-07 [1] CRAN (R 3.5.3)                  
+##  pillar        1.3.1   2018-12-15 [1] CRAN (R 3.5.0)                  
+##  pkgbuild      1.0.2   2018-10-16 [1] CRAN (R 3.5.0)                  
+##  pkgconfig     2.0.2   2018-08-16 [1] CRAN (R 3.5.0)                  
+##  pkgload       1.0.2   2018-10-29 [1] CRAN (R 3.5.0)                  
+##  plyr          1.8.4   2016-06-08 [1] CRAN (R 3.5.0)                  
+##  prettyunits   1.0.2   2015-07-13 [1] CRAN (R 3.5.0)                  
+##  processx      3.3.0   2019-03-10 [1] CRAN (R 3.5.2)                  
+##  ps            1.3.0   2018-12-21 [1] CRAN (R 3.5.0)                  
+##  purrr       * 0.3.2   2019-03-15 [1] CRAN (R 3.5.2)                  
+##  R6            2.4.0   2019-02-14 [1] CRAN (R 3.5.2)                  
+##  Rcpp          1.0.1   2019-03-17 [1] CRAN (R 3.5.2)                  
+##  readr       * 1.3.1   2018-12-21 [1] CRAN (R 3.5.0)                  
+##  readxl        1.1.0   2018-04-20 [1] CRAN (R 3.5.0)                  
+##  remotes       2.0.2   2018-10-30 [1] CRAN (R 3.5.0)                  
+##  rlang         0.3.4   2019-04-07 [1] CRAN (R 3.5.2)                  
+##  rmarkdown     1.12    2019-03-14 [1] CRAN (R 3.5.2)                  
+##  rprojroot     1.3-2   2018-01-03 [1] CRAN (R 3.5.0)                  
+##  rstudioapi    0.10    2019-03-19 [1] CRAN (R 3.5.1)                  
+##  Rttf2pt1      1.3.7   2018-06-29 [1] CRAN (R 3.5.0)                  
+##  rvest         0.3.2   2016-06-17 [1] CRAN (R 3.5.0)                  
+##  scales        1.0.0   2018-08-09 [1] CRAN (R 3.5.0)                  
+##  sessioninfo   1.1.1   2018-11-05 [1] CRAN (R 3.5.0)                  
+##  stringi       1.4.3   2019-03-12 [1] CRAN (R 3.5.2)                  
+##  stringr     * 1.4.0   2019-02-10 [1] CRAN (R 3.5.2)                  
+##  testthat      2.0.1   2018-10-13 [1] CRAN (R 3.5.0)                  
+##  tibble      * 2.1.1   2019-03-16 [1] CRAN (R 3.5.2)                  
+##  tidyr       * 0.8.3   2019-03-01 [1] CRAN (R 3.5.2)                  
+##  tidyselect    0.2.5   2018-10-11 [1] CRAN (R 3.5.0)                  
+##  tidyverse   * 1.2.1   2017-11-14 [1] CRAN (R 3.5.0)                  
+##  usethis       1.4.0   2018-08-14 [1] CRAN (R 3.5.0)                  
+##  viridis     * 0.5.1   2018-03-29 [1] CRAN (R 3.5.0)                  
+##  viridisLite * 0.3.0   2018-02-01 [1] CRAN (R 3.5.0)                  
+##  withr         2.1.2   2018-03-15 [1] CRAN (R 3.5.0)                  
+##  xfun          0.6     2019-04-02 [1] CRAN (R 3.5.2)                  
+##  xml2          1.2.0   2018-01-24 [1] CRAN (R 3.5.0)                  
+##  yaml          2.2.0   2018-07-25 [1] CRAN (R 3.5.0)                  
+## 
+## [1] /Library/Frameworks/R.framework/Versions/3.5/Resources/library</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-FARAWAY2002">
+<p>Faraway, Julian J. 2002. <em>Practical Regression and Anova using R</em>. [University of Bath]. <a href="https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf">https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf</a>.</p>
+</div>
+<div id="ref-TIDY-DATA2014">
+<p>Wickham, Hadley. 2014. “Tidy Data.” <em>The Journal of Statistical Software</em> 59 (10). <a href="http://www.jstatsoft.org/v59/i10/">http://www.jstatsoft.org/v59/i10/</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+Copyright 2019 Adam Sparks
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

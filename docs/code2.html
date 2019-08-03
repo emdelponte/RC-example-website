@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>code2.utf8.md</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible report</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa fa fa-home"></span>
+     
+    About
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa fa fa-file-code-o"></span>
+     
+    Documented analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="code1.html">Data exploration</a>
+    </li>
+    <li>
+      <a href="code2.html">Modeling</a>
+    </li>
+    <li>
+      <a href="code3.html">Bonus material</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/emdelponte/paper-fungicides-whitemold">
+    <span class="fa fa-github-square"></span>
+     
+    source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="unplanted-model" class="section level2">
+<h2>Unplanted Model</h2>
+<p>The paper uses a linear model for the unplanted control. Here we will write a function to use in modelling the unplanted population data. I have wrapped the model in a function which makes it pipe-able, <code>%&gt;%</code> and has other advantages when it comes to fitting the same model to several sets of data.</p>
+<p>In the linear equation for the Unplanted control treatment, the rate of population increase can be expressed as:</p>
+<p><span class="math display">\[y = y_0 + rt\]</span></p>
+<p>Where <span class="math inline">\(y_0\)</span> is the initial population, <span class="math inline">\(r\)</span> is the rate of change and <span class="math inline">\(t\)</span> equal time.</p>
+<div id="first-order-model" class="section level3">
+<h3>First order model</h3>
+<pre class="r"><code>linear_model &lt;- function(df) {
+  lm(
+    Log_pop ~ Degree_days,
+    data = df
+  )
+}</code></pre>
+<p>Now check the model fit, using <code>filter()</code> from <strong><code>dplyr</code></strong> to select only Unplanted data from the data set for the model and fit the linear model to the data.</p>
+<pre class="r"><code>unplanted_model &lt;- nema_long %&gt;%
+  filter(Variety == &quot;Unplanted&quot;) %&gt;%
+  linear_model()</code></pre>
+<p>Using <code>par(mfrow = c(2, 2))</code> creates a four-panel graph rather than four individual graphs, which the next function will create by default.</p>
+<p>Using the <code>plot()</code> function with any <code>lm()</code> object will create four diagnostic plots for your inspection.</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+plot(unplanted_model)</code></pre>
+<p><img src="code2_files/figure-html/plot_model-1.png" width="672" /></p>
+<p>These plots do not appear to indicate anything amiss as one would hope for from the models that have already been published. If you are unfamiliar with how to interpret these diagnostic plots see [Interpreting Linear Models in R] in the [Further Reading] section.</p>
+<p>Using the <code>summary()</code> function displays information about the model fit. If you are unfamiliar with how to read and interpret the output of <code>summary()</code> for a linear model, please refer to [Interpreting Linear Models in R] in the [Further Reading] section for references that go into more detail on this matter.</p>
+<pre class="r"><code>summary(unplanted_model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Log_pop ~ Degree_days, data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.66053 -0.25811 -0.05683  0.21123  0.98511 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 5.4150643  0.1929731  28.061  &lt; 2e-16 ***
+## Degree_days 0.0012950  0.0001823   7.103 4.01e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3847 on 22 degrees of freedom
+## Multiple R-squared:  0.6964, Adjusted R-squared:  0.6826 
+## F-statistic: 50.45 on 1 and 22 DF,  p-value: 4.006e-07</code></pre>
+<p>From the original paper, the <span class="math inline">\(R^2\)</span> value of the unplanted linear model was 0.7, we can see here that agrees: 0.7. In the original paper, <span class="math inline">\(P\)</span> &lt; 0.001, R reports <span class="math inline">\(p-value:\)</span> 4.006382710^{-7}, which also agrees.</p>
+<div id="visualising-the-model-fit-to-the-data" class="section level4">
+<h4>Visualising the Model Fit to the Data</h4>
+<p>Using <strong><code>ggplot2</code></strong>’s <code>geom_smooth()</code> we can fit the same model above and graph the resulting line.</p>
+<pre class="r"><code>nema_long %&gt;%
+  group_by(Variety) %&gt;%
+  filter(Variety == &quot;Unplanted&quot;) %&gt;%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = &quot;lm&quot;,
+    formula = y ~ x,
+    size = 1,
+    se = FALSE,
+    colour = &quot;grey&quot;,
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      &quot;ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  xlab(&quot;Thermal Time ˚C Days Above 10 ˚C)&quot;) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;Unplanted Linear Model&quot;)</code></pre>
+<p><img src="code2_files/figure-html/visualise_linear-1.png" width="672" /></p>
+</div>
+</div>
+<div id="second-order-model" class="section level3">
+<h3>Second order model</h3>
+<p>In the original paper, the quadratic model best described Gatcher and GS50a data, which are fit here.</p>
+<pre class="r"><code>quadratic_model &lt;- function(df) {
+  lm(
+    Log_pop ~ Degree_days + I(Degree_days ^ 2),
+    data = df
+  )
+}</code></pre>
+</div>
+</div>
+<div id="s-varieties" class="section level2">
+<h2>S varieties</h2>
+<p>Gatcher, Potam and Suneca all have very similar curves, here Gatcher is used to fit a second-order model as in the original paper following the same methods as above for the linear model.</p>
+<pre class="r"><code>s_model &lt;- nema_long %&gt;%
+  filter(Variety == &quot;Gatcher&quot;) %&gt;%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(s_model)</code></pre>
+<p><img src="code2_files/figure-html/susceptible_model-1.png" width="672" /></p>
+<pre class="r"><code>summary(s_model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Log_pop ~ Degree_days + I(Degree_days^2), data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.80668 -0.58936  0.07297  0.58228  1.14866 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       5.476e+00  9.043e-01   6.055 5.21e-06 ***
+## Degree_days       8.961e-03  1.909e-03   4.693 0.000124 ***
+## I(Degree_days^2) -2.612e-06  9.008e-07  -2.899 0.008579 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8631 on 21 degrees of freedom
+## Multiple R-squared:  0.7998, Adjusted R-squared:  0.7808 
+## F-statistic: 41.96 on 2 and 21 DF,  p-value: 4.621e-08</code></pre>
+<p>From the original paper, the <span class="math inline">\(R^2\)</span> value of Gatcher’s quadratic model was 0.80, we can see here that agrees: 0.8. In the original paper, <span class="math inline">\(P\)</span> &lt; 0.001, R reports <span class="math inline">\(p-value:\)</span> 1.240363510^{-4}, which also agrees.</p>
+<div id="model-fit" class="section level4">
+<h4>Model fit</h4>
+<p>The model visualisation is the same for the quadratic models as the linear model, however you will note that the line has a downward curve at higher temperatures.</p>
+<pre class="r"><code>nema_long %&gt;%
+  group_by(Variety) %&gt;%
+  filter(Variety == &quot;Gatcher&quot;) %&gt;%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = &quot;lm&quot;,
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = &quot;grey&quot;,
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      &quot;ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  xlab(&quot;Thermal Time (˚C Days Above 10˚C)&quot;) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;Gatcher Quadratic Model&quot;)</code></pre>
+<p><img src="code2_files/figure-html/visualise_s_model-1.png" width="672" /></p>
+</div>
+</div>
+<div id="mr-varieties" class="section level2">
+<h2>MR Varieties</h2>
+<p>GS50a, moderately resistant to <em>P. thornei</em>, also fits a quadratic model but the coefficients are slightly different due to different responses to the variety and temperature.</p>
+<pre class="r"><code>mr_model &lt;- nema_long %&gt;%
+  filter(Variety == &quot;GS50a&quot;) %&gt;%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(mr_model)</code></pre>
+<p><img src="code2_files/figure-html/moderately_resistant_model-1.png" width="672" /></p>
+<pre class="r"><code>summary(mr_model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Log_pop ~ Degree_days + I(Degree_days^2), data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.11285 -0.39845  0.02889  0.45494  1.18598 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       5.157e+00  6.779e-01   7.607 1.83e-07 ***
+## Degree_days       6.274e-03  1.431e-03   4.384  0.00026 ***
+## I(Degree_days^2) -1.609e-06  6.753e-07  -2.383  0.02672 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.647 on 21 degrees of freedom
+## Multiple R-squared:  0.8233, Adjusted R-squared:  0.8065 
+## F-statistic: 48.92 on 2 and 21 DF,  p-value: 1.248e-08</code></pre>
+<p>From the original paper, the <span class="math inline">\(R^2\)</span> value of GS50a’s quadratic model was 0.82, we can see here that agrees: 0.82. In the original paper, <span class="math inline">\(P\)</span> &lt; 0.001, R reports <span class="math inline">\(p-value:\)</span> 2.596147310^{-4}, which also agrees.</p>
+<div id="model-fit-1" class="section level4">
+<h4>Model Fit</h4>
+<pre class="r"><code>nema_long %&gt;%
+  group_by(Variety) %&gt;%
+  filter(Variety == &quot;GS50a&quot;) %&gt;%
+  ggplot(aes(
+    x = Degree_days,
+    y = Log_pop,
+    colour = Temperature,
+  )) +
+  geom_point() +
+  geom_smooth(
+    method = &quot;lm&quot;,
+    formula = y ~ x + I(x ^ 2),
+    size = 1,
+    se = FALSE,
+    colour = &quot;grey&quot;,
+    alpha = 0.5
+  ) +
+  ylab(expression(
+    paste(
+      &quot;ln(&quot;,
+      italic(&quot;P. thornei&quot;),
+      &quot;/kg soil) + 1&quot;
+    ),
+    sep = &quot;&quot;
+  )) +
+  xlab(&quot;Thermal Time (˚C Days Above 10˚C)&quot;) +
+  scale_colour_viridis(&quot;Temperature&quot;) +
+  ggtitle(&quot;GS50a Quadratic Model&quot;)</code></pre>
+<p><img src="code2_files/figure-html/visualise_mr_model-1.png" width="672" /></p>
+</div>
+</div>
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>As in the original paper, the model equations can be derived from these models as well. The derived regression equations are:</p>
+<p>Gatcher (Susceptible): <span class="math display">\[ln(P. thornei + 1) = -0.000003(0.0000009)T^2 + 0.009(0.0019)T + 5.4671(0.904)\]</span></p>
+<p>GS50a (Moderately Resistant): <span class="math display">\[ln(P. thornei + 1) = -0.000002(0.0000007)T^2 + 0.0063(0.0014)T + 5.1559(0.678)\]</span></p>
+<p>Unplanted Control: <span class="math display">\[ln(P. thornei + 1) = 0.0013(0.00018)T + 5.4151(0.193)\]</span></p>
+<p>Refer back to the <code>summary()</code> outputs for each of the models for the coefficient values and <span class="math inline">\(R^2\)</span> values, which match those reported in the original paper where the models were fit with Genstat.</p>
+<p>Gatcher and GS50a have similar phenologies, but differ in resistance to root lesion nematodes, making the model comparisons a reasonable objective. The original paper goes on to test the effect of sowing date based on degree days. <span class="citation">(Thompson 2015)</span> reported a 61% increase in yield on average from sowing the susceptible, intolerant cultivar Gatcher at the end of May than sowing it in the third week of June. By June the soil temperatures and nematode populations were both greater, leading to lower wheat yield. The effects were less pronounced in the moderately resistant cultivar, GS50a, but were similar with a reduction in nematode population densities occurring due to earlier planting.</p>
+<p>The models illustrated here for Gatcher and GS50a were able to accurately reflect the changes in nematode population as a result of degree days, which affected the nematodes’ ability to damage the crop and reduce yield <span class="citation">(Thompson 2015)</span>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-THOMPSON2015">
+<p>Thompson, J.P. 2015. “Modelling Population Densities of Root-Lesion Nematode (<em>Pratylenchus Thornei</em>) from Soil Profile Temperatures to Choose an Optimum Sowing Date for Wheat in a Subtropical Region.” <em>Field Crops Research</em> 183:50–55. <a href="https://doi.org/10.1016/j.fcr.2015.07.005">https://doi.org/10.1016/j.fcr.2015.07.005</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+Copyright 2019 Adam Sparks
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
